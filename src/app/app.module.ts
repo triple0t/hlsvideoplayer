@@ -1,16 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { VideoplayerComponent } from './components/videoplayer/videoplayer.component';
+import { ListViewComponent } from './containers/list-view/list-view.component';
+import { DetailViewComponent } from './containers/detail-view/detail-view.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    VideoplayerComponent,
+    ListViewComponent,
+    DetailViewComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

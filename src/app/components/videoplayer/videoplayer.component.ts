@@ -91,8 +91,10 @@ export class VideoplayerComponent implements OnInit, AfterViewInit {
     });
 
     this.videoElement.addEventListener('timeupdate', () => {
-      if (!this.progressEle.getAttribute('max')) this.progressEle.setAttribute('max', String(this.videoElement.duration));
-      this.progressEle.value = this.videoElement.currentTime;
+      if (this.progressEle && !this.progressEle.getAttribute('max')) {
+        this.progressEle.setAttribute('max', String(this.videoElement.duration));
+      }
+      if (this.progressEle) this.progressEle.value = this.videoElement.currentTime;
     });
 
     this.videoElement.addEventListener('ended', () => {
@@ -106,18 +108,23 @@ export class VideoplayerComponent implements OnInit, AfterViewInit {
 
   handleErrorEvents() {
     this.hls.on(HLS.Events.ERROR, (event, data) => {
+      console.warn('Error: event: ', event, ' data: ', data);
+      this.loaderService.hideLoader();
+
       if (data.fatal) {
         switch(data.type) {
         case HLS.ErrorTypes.NETWORK_ERROR:
           // try to recover network error
-          console.log("fatal network error encountered, trying to recover");
-          this.errormessage = 'fatal network error encountered, trying to recover';
-          if (this.hls) this.hls.startLoad();
+          if (data.response && data.response.code == 404) {
+            this.errormessage = 'fatal network error encountered. File Not Found';
+          } else {
+            this.errormessage = 'fatal network error encountered, trying to recover';
+            if (this.hls) this.hls.startLoad();
+          }
           break;
         case HLS.ErrorTypes.MEDIA_ERROR:
-          console.log("fatal media error encountered, try to recover");
-          this.errormessage = 'fatal media error encountered, trying to recover';
-          if (this.hls) this.hls.recoverMediaError();
+          this.errormessage = data['reason'] ? data['reason'] : 'fatal media error encountered, trying to recover';
+          // if (this.hls) this.hls.recoverMediaError();
           break;
         default:
           // cannot recover
@@ -153,6 +160,7 @@ export class VideoplayerComponent implements OnInit, AfterViewInit {
   }
 
   skipAhead(event) {
+    if (!this.progressEle) return;
     const pos = (event.pageX  - this.progressEle.offsetLeft) / this.progressEle.offsetWidth;
     const finalPos = pos * this.videoElement.duration;
     this.videoElement.currentTime = finalPos;

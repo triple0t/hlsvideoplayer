@@ -2,6 +2,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
 
+A Custom HLS video player implemented with hls.js
+
+**Features**
+* A custom control bar with the ability to play/pause, seek, and display current time / duration
+* Ability to auto advance to next clip
+* New Stream can easily be added to the list at *src/assets/HLS-samples-data.json*
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

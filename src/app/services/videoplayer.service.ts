@@ -29,7 +29,7 @@ export class VideoPlayerService {
     }
   }
 
-  isNextStreamAvaliable(currentStream) {
+  isNextStreamAvaliable(currentStream: HlsSamples) {
     if (!currentStream) return false;
 
     if (!this.streamList || this.streamList.length == 0) return false;
@@ -49,7 +49,7 @@ export class VideoPlayerService {
     }
   }
 
-  gotoNextAvaliableStream(currentStream) {
+  gotoNextAvaliableStream(currentStream: HlsSamples) {
 
     const nextStream = this.isNextStreamAvaliable(currentStream);
 

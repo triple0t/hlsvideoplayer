@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { VideoplayerComponent } from 'src/app/components/videoplayer/videoplayer.component';
 
 import { DetailViewComponent } from './detail-view.component';
 
@@ -8,7 +9,7 @@ describe('DetailViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DetailViewComponent ]
+      declarations: [ DetailViewComponent, VideoplayerComponent ]
     })
     .compileComponents();
   });
@@ -21,5 +22,10 @@ describe('DetailViewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should contain videoplayer component', () => {
+    const detailElement: HTMLElement = fixture.nativeElement;
+    expect(detailElement.querySelector('app-videoplayer')).toBeTruthy();
   });
 });
